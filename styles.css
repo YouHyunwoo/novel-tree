@@ -1,0 +1,150 @@
+@font-face {
+    font-family: 'SourceHanSerifK';
+    src: url('fonts/SourceHanSerifK-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
+    font-size: 1.5rem;
+    background-color: #f9f9fb;
+    color: #333;
+    line-height: 1.7;
+    padding: 2rem;
+    padding-top: 70px;
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+.novel-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    background: #5c6bc0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    z-index: 100;
+    font-size: 1.3rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.novel-header.hidden {
+    transform: translateY(-100%);
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* 프로그레스 바 스타일 - 상단 고정, 즉각적 애니메이션 */
+.progress-bar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 6px;
+    background: #1976d2;
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.05s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 0 8px rgba(0,0,0,0.25);
+    border-radius: 0 3px 3px 0;
+}
+
+.novel-text {
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+    opacity: 1;
+    transform: none;
+    transition: none;
+    font-size: 1.35rem;
+    line-height: 1.8;
+    font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
+    font-weight: 600;
+}
+
+.choice-box {
+    border: 2px solid #ccc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: #fff;
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: center;
+    font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+.choice-button {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #5c6bc0;
+    color: white;
+    font-size: 1.15rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
+}
+
+.choice-button:hover {
+    background-color: #3949ab;
+}
+
+.choice-button.selected {
+    background-color: #3949ab;
+    color: #fff;
+    font-weight: bold;
+}
+
+.choice-button.disabled {
+    background-color: #e0e0e0;
+    color: #757575;
+    cursor: not-allowed;
+}
+
+/* 페이드 인 효과 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s, transform 0.8s;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 1023px) {
+    .novel-header { height: 50px; font-size: 1.2rem; }
+    body { padding-top: 60px; font-size: 1.2rem; }
+    .novel-text, .choice-box { font-size: 1.1rem; }
+    .choice-button { font-size: 1rem; }
+}
+
+@media (max-width: 767px) {
+    .novel-header { height: 45px; font-size: 1.05rem; padding: 0 1rem; }
+    body { padding-top: 50px; font-size: 1rem; }
+    .novel-text, .choice-box { font-size: 1rem; }
+    .choice-button { font-size: 0.95rem; }
+}
+
+/* 본명조 웹폰트 적용 (Adobe Fonts 예시) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap');
