@@ -1,11 +1,14 @@
 // 다크 모드 토글 스크립트
 function setDarkMode(enabled) {
     const darkLink = document.getElementById('dark-css');
+    const lightLink = document.getElementById('light-css');
     if (enabled) {
         darkLink.disabled = false;
+        lightLink.disabled = true;
         localStorage.setItem('darkMode', 'on');
     } else {
         darkLink.disabled = true;
+        lightLink.disabled = false;
         localStorage.setItem('darkMode', 'off');
     }
 }
@@ -16,6 +19,14 @@ function toggleDarkMode() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    // 시스템 다크 모드 선호 시 진입 시점에 body 배경색을 어둡게, 아니면 밝게 설정
+    if (!localStorage.getItem('darkMode')) {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.style.backgroundColor = '#111';
+        } else {
+            document.body.style.backgroundColor = '#f9f9fb';
+        }
+    }
     const darkLink = document.getElementById('dark-css');
     const saved = localStorage.getItem('darkMode');
     if (saved === 'on') {

@@ -62,11 +62,11 @@ function renderStory() {
     let renderedCount = novel.childElementCount;
     for (let i = renderedCount; i < story.length; i++) {
         const block = story[i];
-        if (typeof block === 'string') {
-            if (!stopAtChoice && block.trim() !== '') {
+        if (block.type === 'text') {
+            if (!stopAtChoice && block.content.trim() !== '') {
                 const p = document.createElement('p');
                 p.className = 'novel-text fade-in';
-                p.textContent = block;
+                p.textContent = block.content;
                 novel.appendChild(p);
                 setTimeout(() => p.classList.add('visible'), 30);
                 updateProgressBar();
@@ -149,11 +149,19 @@ function handleHeader() {
     lastScroll = curr;
 }
 
+let story;
+
+async function loadStory() {
+    const res = await fetch('novels/half-blood-flame/story.json');
+    story = await res.json();
+    renderStory();
+}
+
 function initializeApp() {
     // 헤더/진행도 바 생성
     createHeader();
     createProgressBar();
-    renderStory();
+    loadStory();
     updateProgressBar();
 
     window.addEventListener('scroll', () => {
