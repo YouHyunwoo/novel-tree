@@ -13,14 +13,14 @@
 
 body {
     font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
     background-color: #f9f9fb;
     color: #333;
-    line-height: 1.7;
+    line-height: 1.4;
     padding: 2rem;
     padding-top: 70px;
     padding-bottom: 10px;
-    font-weight: 600;
+    transition: background-color 0.4s cubic-bezier(0.4,0,0.2,1), color 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 
 .novel-header {
@@ -70,10 +70,9 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
-    font-size: 1.35rem;
-    line-height: 1.8;
+    font-size: 1.7rem;
+    line-height: 1.5;
     font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
-    font-weight: 600;
 }
 
 .choice-box {
@@ -86,7 +85,6 @@ body {
     text-align: center;
     font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
     font-size: 1.35rem;
-    font-weight: 600;
 }
 
 .choice-button {

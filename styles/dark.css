@@ -1,0 +1,42 @@
+/* 다크 모드 스타일 */
+body {
+    background-color: #23242a;
+    color: #f9f9fb;
+    transition: background-color 0.4s cubic-bezier(0.4,0,0.2,1), color 0.4s cubic-bezier(0.4,0,0.2,1);
+    font-size: 2rem;
+    line-height: 1.4;
+}
+
+.novel-header {
+    background: #22244c;
+    color: #fff;
+}
+
+.choice-box {
+    background: #2c2d36;
+    border-color: #444;
+}
+
+.choice-button {
+    background-color: #3949ab;
+    color: #fff;
+}
+
+.choice-button.selected {
+    background-color: #81c784;
+    color: #23242a;
+}
+
+.choice-button.disabled {
+    background-color: #444;
+    color: #aaa;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #3949ab 0%, #81c784 100%);
+}
+
+.novel-text {
+    font-size: 1.7rem;
+    line-height: 1.5;
+}
