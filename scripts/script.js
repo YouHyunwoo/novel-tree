@@ -91,6 +91,7 @@ function renderStory() {
                     if (choiceStates[i] === idx) {
                         btn.classList.add('selected');
                         btn.innerHTML += ' ✔';
+                        btn.disabled = true;
                     } else {
                         btn.classList.add('disabled');
                         btn.disabled = true;
@@ -99,6 +100,17 @@ function renderStory() {
                 btn.onclick = () => {
                     if (choiceStates[i] === undefined) {
                         choiceStates[i] = idx;
+                        // 모든 버튼 비활성화 및 스타일 갱신
+                        Array.from(box.querySelectorAll('button')).forEach((b, bIdx) => {
+                            if (bIdx === idx) {
+                                b.classList.add('selected');
+                                b.innerHTML = opt.label + ' ✔';
+                                b.disabled = true;
+                            } else {
+                                b.classList.add('disabled');
+                                b.disabled = true;
+                            }
+                        });
                         renderStory();
                         scrollToChoice(box);
                     }
