@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'SourceHanSerifK';
-    src: url('fonts/SourceHanSerifK-Regular.otf') format('opentype');
+    src: url('../fonts/SourceHanSerifK-Regular.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
@@ -56,7 +56,7 @@ body {
     left: 0;
     top: 0;
     height: 6px;
-    background: #1976d2;
+    background: linear-gradient(90deg, #5c6bc0 0%, #81c784 100%);
     width: 0%;
     z-index: 9999;
     transition: width 0.05s cubic-bezier(0.4,0,0.2,1);

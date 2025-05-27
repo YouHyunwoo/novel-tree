@@ -1,0 +1,15 @@
+# OS/IDE
+.DS_Store
+Thumbs.db
+*.log
+
+# Node
+node_modules/
+
+# VSCode
+.vscode/
+
+# 기타
+.env
+*.bak
+*.tmp
