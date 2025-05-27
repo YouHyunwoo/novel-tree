@@ -56,12 +56,34 @@ function updateProgressBar() {
 }
 
 // 스토리 렌더링
+function renderTitleAndAct() {
+    const novel = document.getElementById('novel');
+    // 이미 있으면 중복 생성 방지
+    if (document.querySelector('.novel-title')) return;
+    if (story && story.title) {
+        const title = document.createElement('h1');
+        title.className = 'novel-title fade-in';
+        title.textContent = story.title;
+        novel.appendChild(title);
+        setTimeout(() => title.classList.add('visible'), 30);
+    }
+    if (story && story.act) {
+        const act = document.createElement('h2');
+        act.className = 'novel-act fade-in';
+        act.textContent = story.act;
+        novel.appendChild(act);
+        setTimeout(() => act.classList.add('visible'), 30);
+    }
+}
+
 function renderStory() {
     const novel = document.getElementById('novel');
+    renderTitleAndAct();
     let stopAtChoice = false;
-    let renderedCount = novel.childElementCount;
-    for (let i = renderedCount; i < story.length; i++) {
-        const block = story[i];
+    let renderedCount = novel.childElementCount - document.querySelectorAll('.novel-title, .novel-act').length;
+    const scenes = story.scenes;
+    for (let i = renderedCount; i < scenes.length; i++) {
+        const block = scenes[i];
         if (block.type === 'text') {
             if (!stopAtChoice && block.content.trim() !== '') {
                 const p = document.createElement('p');
