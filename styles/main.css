@@ -84,7 +84,6 @@ body {
 }
 
 .novel-link.thumbnail-bg {
-    background: url('novels/half-blood-flame/images/thumbnail.png') center/cover no-repeat;
     color: #fff;
 }
 
@@ -92,7 +91,7 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(30, 32, 40, 0.54);
+    background: rgba(30, 32, 40, 0.72); /* 기존 0.54에서 0.72로 어둡게 */
     z-index: 1;
 }
 
@@ -106,9 +105,14 @@ body {
     text-shadow: 0 1px 6px #222;
 }
 
+.novel-link.thumbnail-bg .novel-title,
+.novel-link.thumbnail-bg .novel-meta,
+.novel-link.thumbnail-bg .novel-author {
+    text-shadow: 0 2px 12px rgba(0,0,0,0.55), 0 1px 6px #222;
+}
+
 .novel-link.thumbnail-bg:hover {
-    background-blend-mode: lighten;
-    filter: brightness(1.08);
+    filter: brightness(1.15);
 }
 
 .novel-title {
