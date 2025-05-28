@@ -9,17 +9,34 @@ async function loadNovelList() {
         const response = await fetch('novels/list.json');
         if (!response.ok) throw new Error('Failed to load novel list');
 
-        const novels = await response.json();
-        list.innerHTML = novels.map(novel => {
+        const novelIds = await response.json();
+        // 문자열 배열로 바로 사용
+        const ids = Array.isArray(novelIds) ? novelIds : [];
+        const novelInfos = await Promise.all(ids.map(async id => {
+            try {
+                const infoRes = await fetch(`novels/${id}/information.json`);
+                if (!infoRes.ok) throw new Error();
+                const info = await infoRes.json();
+                return info;
+            } catch {
+                return null;
+            }
+        }));
+        list.innerHTML = novelInfos.filter(Boolean).map(novel => {
             const hashtags = novel.genre
                 .split(',')
                 .map(tag => `#${tag.trim()}`)
                 .join(' ');
             return `
                 <li>
-                    <a class="novel-link thumbnail-bg" href="${novel.link}" style="background-image:url('${novel.thumbnail}')">
-                        <span class="novel-title">${novel.title}</span>
-                        <div class="novel-meta">${hashtags}</div>
+                    <a class="novel-link thumbnail-bg" href="novel.html?novel=${novel.id}" style="background-image:url('${novel.thumbnail}')">
+                        <div class="novel-info">
+                            <span class="novel-title">${novel.title}</span>
+                            <div class="novel-bottom-row">
+                                <div class="novel-meta">${hashtags}</div>
+                                <span class="novel-author">${novel.author ? novel.author : ''}</span>
+                            </div>
+                        </div>
                     </a>
                 </li>
             `;
