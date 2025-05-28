@@ -171,6 +171,38 @@ body {
     pointer-events: none;
 }
 
+.donate-btn {
+    position: fixed;
+    top: 28px;
+    right: 28px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #5c6bc0;
+    box-shadow: 0 2px 12px rgba(92,107,192,0.13);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.donate-btn:hover {
+    background: #3949ab;
+    box-shadow: 0 4px 18px rgba(92,107,192,0.22);
+    transform: scale(1.07);
+}
+
+.donate-icon svg {
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
 @media (max-width: 1023px) {
     body {
         font-size: 1.2rem;
@@ -188,5 +220,17 @@ body {
 
     .novel-link {
         font-size: 1rem;
+    }
+
+    .donate-btn {
+        top: 16px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .donate-icon svg {
+        width: 24px;
+        height: 24px;
     }
 }
