@@ -186,6 +186,12 @@ export async function loadStory() {
     renderedSceneIds = [];
     choiceStates = {};
     renderStory();
+    // 사운드 이벤트가 있으면 안내 오버레이 자동 표시
+    if (story && Array.isArray(story.events) && story.events.some(e => e.type === 'sound')) {
+        setTimeout(() => {
+            showSoundActivationOverlay();
+        }, 100); // DOMContentLoaded와 겹치지 않게 약간 딜레이
+    }
 }
 
 // 소설 본문(novel.html) 전용 스크립트
@@ -310,7 +316,7 @@ function showSoundActivationOverlay() {
         modeMsg = '<div class="recommend-mode-msg">이 작품은 <b>라이트 모드</b>를 추천합니다.</div>';
     }
     // 기존 안내문구 + 추천 모드 안내
-    const baseMsg = '<div>사운드 효과를 들으려면 화면을 클릭하세요.</div>';
+    const baseMsg = '<div>사운드가 재생될 수 있는 작품입니다.</div>';
     overlay.innerHTML = baseMsg + modeMsg;
     overlay.onclick = function activateAudio() {
         const audio = document.getElementById('event-audio');
