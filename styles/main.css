@@ -73,6 +73,15 @@ body {
     overflow: hidden;
 }
 
+.novel-link .novel-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex-grow: 1;
+    width: 100%;
+    min-height: 120px;
+}
+
 .novel-link.thumbnail-bg {
     background: url('novels/half-blood-flame/images/thumbnail.png') center/cover no-repeat;
     color: #fff;
@@ -101,19 +110,44 @@ body {
     filter: brightness(1.08);
 }
 
-.novel-meta {
-    font-size: 0.98rem;
-    color: #757575;
-    margin-top: 0.3rem;
-}
-
 .novel-title {
     color: #fff;
     font-size: 1.35rem;
     font-weight: 700;
-    margin-bottom: 0.7rem;
+    margin-bottom: 1.1rem;
     text-shadow: 0 2px 8px rgba(30,32,40,0.25);
     display: block;
+}
+
+.novel-bottom-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    gap: 1.2rem;
+}
+
+.novel-meta {
+    font-size: 0.98rem;
+    color: #e0e0e0;
+    margin: 0;
+    text-shadow: 0 1px 6px #222;
+    text-align: left;
+    flex: 1 1 auto;
+    word-break: break-all;
+}
+
+.novel-author {
+    color: #fff;
+    font-size: 0.98rem;
+    font-weight: 400;
+    opacity: 0.85;
+    text-shadow: 0 2px 8px rgba(30,32,40,0.25);
+    margin: 0;
+    text-align: right;
+    z-index: 2;
+    flex: 0 0 auto;
 }
 
 @media (max-width: 1023px) {
