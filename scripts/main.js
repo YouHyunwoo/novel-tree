@@ -10,14 +10,20 @@ async function loadNovelList() {
         if (!response.ok) throw new Error('Failed to load novel list');
 
         const novels = await response.json();
-        list.innerHTML = novels.map(novel => `
-            <li>
-                <a class="novel-link thumbnail-bg" href="${novel.link}" style="background-image:url('${novel.thumbnail}')">
-                    ${novel.title}
-                    <div class="novel-meta">장르: ${novel.genre}</div>
-                </a>
-            </li>
-        `).join('');
+        list.innerHTML = novels.map(novel => {
+            const hashtags = novel.genre
+                .split(',')
+                .map(tag => `#${tag.trim()}`)
+                .join(' ');
+            return `
+                <li>
+                    <a class="novel-link thumbnail-bg" href="${novel.link}" style="background-image:url('${novel.thumbnail}')">
+                        <span class="novel-title">${novel.title}</span>
+                        <div class="novel-meta">${hashtags}</div>
+                    </a>
+                </li>
+            `;
+        }).join('');
     }
     catch (error) {
         console.error('Error loading novel list:', error);

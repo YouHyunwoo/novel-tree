@@ -107,6 +107,15 @@ body {
     margin-top: 0.3rem;
 }
 
+.novel-title {
+    color: #fff;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    text-shadow: 0 2px 8px rgba(30,32,40,0.25);
+    display: block;
+}
+
 @media (max-width: 1023px) {
     body { font-size: 1.2rem; }
     .novel-link { font-size: 1.1rem; }
