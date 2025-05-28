@@ -263,6 +263,25 @@ header {
     box-shadow: none;
 }
 
+#bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.35);
+    z-index: 120;
+    pointer-events: none;
+}
+
+.recommend-mode-msg {
+    margin-top: 1.2em;
+    font-size: 1.1em;
+    color: #ffe082;
+    font-weight: bold;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
 @media (max-width: 1023px) {
     .novel-header { height: 50px; font-size: 1.2rem; }
     body { padding-top: 60px; font-size: 1.2rem; }

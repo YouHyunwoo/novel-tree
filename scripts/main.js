@@ -27,9 +27,16 @@ async function loadNovelList() {
                 .split(',')
                 .map(tag => `#${tag.trim()}`)
                 .join(' ');
+            // 추천 모드 뱃지 HTML 생성
+            let badgeHtml = '';
+            if (novel.recommendMode && novel.recommendMode !== 'none') {
+                const badgeText = novel.recommendMode === 'dark' ? '다크 모드 추천' : '라이트 모드 추천';
+                badgeHtml = `<span class="recommend-mode-badge" style="position:absolute;top:12px;right:16px;background:${novel.recommendMode === 'dark' ? '#222' : '#fff'};color:${novel.recommendMode === 'dark' ? '#fff' : '#222'};font-size:0.95rem;font-weight:bold;padding:0.3em 0.8em;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,0.08);z-index:10;user-select:none;pointer-events:none;">${badgeText}</span>`;
+            }
             return `
                 <li>
-                    <a class="novel-link thumbnail-bg" href="novel.html?novel=${novel.id}" style="background-image:url('${novel.thumbnail}')">
+                    <a class="novel-link thumbnail-bg" href="novel.html?novel=${novel.id}${novel.recommendMode && novel.recommendMode !== 'none' ? `&recommendMode=${novel.recommendMode}` : ''}" style="background-image:url('${novel.thumbnail}')">
+                        ${badgeHtml}
                         <div class="novel-info">
                             <span class="novel-title">${novel.title}</span>
                             <div class="novel-bottom-row">

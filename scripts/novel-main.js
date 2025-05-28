@@ -196,6 +196,21 @@ let triggeredEvents = new Set();
 let originalBg = null;
 let lastOnceBg = null;
 
+function setOverlayVisibility() {
+    const overlay = document.getElementById('bg-overlay');
+    const bgOnce = document.getElementById('bg-once');
+    const bgTemp = document.getElementById('bg-temp');
+    const hasBgOnce = bgOnce && bgOnce.style.backgroundImage && bgOnce.style.backgroundImage !== 'none' && bgOnce.style.opacity !== '0';
+    const hasBgTemp = bgTemp && bgTemp.style.backgroundImage && bgTemp.style.backgroundImage !== 'none' && bgTemp.style.opacity !== '0';
+    if (overlay) {
+        if (hasBgOnce || hasBgTemp) {
+            overlay.style.display = 'block';
+        } else {
+            overlay.style.display = 'none';
+        }
+    }
+}
+
 function handleScrollEvents() {
     if (!story || !story.events) return;
     const scrollY = window.scrollY;
@@ -258,15 +273,32 @@ function handleScrollEvents() {
             }
         }
     }
+    setOverlayVisibility();
 }
 
 window.addEventListener('scroll', handleScrollEvents);
+
+function getRecommendModeFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('recommendMode') || null;
+}
 
 function showSoundActivationOverlay() {
     const overlay = document.getElementById('sound-activation-overlay');
     if (!overlay) return;
     overlay.hidden = false;
     overlay.classList.remove('hide');
+    // 추천 모드 안내 문구 추가
+    const recommendMode = getRecommendModeFromUrl();
+    let modeMsg = '';
+    if (recommendMode === 'dark') {
+        modeMsg = '<div class="recommend-mode-msg">이 작품은 <b>다크 모드</b>를 추천합니다.</div>';
+    } else if (recommendMode === 'light') {
+        modeMsg = '<div class="recommend-mode-msg">이 작품은 <b>라이트 모드</b>를 추천합니다.</div>';
+    }
+    // 기존 안내문구 + 추천 모드 안내
+    const baseMsg = '<div>사운드 효과를 들으려면 화면을 클릭하세요.</div>';
+    overlay.innerHTML = baseMsg + modeMsg;
     overlay.onclick = function activateAudio() {
         const audio = document.getElementById('event-audio');
         if (audio) {
