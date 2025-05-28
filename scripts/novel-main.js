@@ -1,4 +1,32 @@
-import { updateProgressBar } from './progress-bar.js';
+import { createHeader, handleHeader } from './header.js';
+import { createProgressBar, updateProgressBar } from './progress-bar.js';
+
+function showLoadingSpinner() {
+    const spinner = document.getElementById('loading-spinner');
+    if (spinner) spinner.style.display = 'flex';
+    document.getElementById('novel').style.visibility = 'hidden';
+}
+function hideLoadingSpinner() {
+    const spinner = document.getElementById('loading-spinner');
+    if (spinner) spinner.style.display = 'none';
+    document.getElementById('novel').style.visibility = 'visible';
+}
+
+async function initializeApp() {
+    showLoadingSpinner();
+    createHeader();
+    createProgressBar();
+    await loadStory();
+    hideLoadingSpinner();
+    updateProgressBar();
+    window.addEventListener('scroll', () => {
+        handleHeader();
+        updateProgressBar();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initializeApp);
+
 
 // 소설 내용(스토리) 관련 스크립트
 let choiceStates = {};
@@ -143,11 +171,21 @@ export function scrollToChoice(box) {
     }, 100);
 }
 
+// URL에서 novel 파라미터 추출 함수 추가
+function getNovelIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('novel') || 'half-blood-flame';
+}
+
 export async function loadStory() {
-    const res = await fetch('novels/half-blood-flame/story.json');
+    const novelId = getNovelIdFromUrl();
+    const res = await fetch(`novels/${novelId}/story.json`);
     story = await res.json();
     sceneMap = null;
     renderedSceneIds = [];
     choiceStates = {};
     renderStory();
 }
+
+// 소설 본문(novel.html) 전용 스크립트
+// novel.html에서만 동작하도록 DOM 체크 및 예외 처리 추가

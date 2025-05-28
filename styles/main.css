@@ -1,0 +1,118 @@
+/* 메인 페이지 전용 스타일 */
+@font-face {
+    font-family: 'SourceHanSerifK';
+    src: url('../fonts/SourceHanSerifK-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
+    background-color: #f5f6fa;
+    color: #333;
+    line-height: 1.4;
+    padding: 2rem;
+}
+
+.main-title {
+    font-size: 2.7rem;
+    font-weight: 900;
+    color: #5c6bc0;
+    text-align: center;
+    margin: 3.5rem 0 2.5rem 0;
+    letter-spacing: 0.04em;
+    font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
+}
+
+.novel-list {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 3rem 1.5rem;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px 0 rgba(92, 107, 192, 0.08);
+}
+
+.novel-list h2 {
+    font-size: 1.3rem;
+    color: #3949ab;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+}
+
+.novel-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.novel-list li {
+    margin-bottom: 1.5rem;
+}
+
+.novel-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 1.2rem 2.2rem 1.2rem;
+    min-height: 250px;
+    background: #f9f9fb;
+    border-radius: 8px;
+    color: #333;
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 1px 4px 0 rgba(92, 107, 192, 0.04);
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.novel-link.thumbnail-bg {
+    background: url('novels/half-blood-flame/images/thumbnail.png') center/cover no-repeat;
+    color: #fff;
+}
+
+.novel-link.thumbnail-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 32, 40, 0.54);
+    z-index: 1;
+}
+
+.novel-link.thumbnail-bg > * {
+    position: relative;
+    z-index: 2;
+}
+
+.novel-link.thumbnail-bg .novel-meta {
+    color: #e0e0e0;
+    text-shadow: 0 1px 6px #222;
+}
+
+.novel-link.thumbnail-bg:hover {
+    background-blend-mode: lighten;
+    filter: brightness(1.08);
+}
+
+.novel-meta {
+    font-size: 0.98rem;
+    color: #757575;
+    margin-top: 0.3rem;
+}
+
+@media (max-width: 1023px) {
+    body { font-size: 1.2rem; }
+    .novel-link { font-size: 1.1rem; }
+}
+
+@media (max-width: 767px) {
+    body { font-size: 1rem; }
+    .novel-link { font-size: 1rem; }
+}
