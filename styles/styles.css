@@ -164,6 +164,3 @@ body {
     .novel-text, .choice-box { font-size: 1rem; }
     .choice-button { font-size: 0.95rem; }
 }
-
-/* 본명조 웹폰트 적용 (Adobe Fonts 예시) */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap');
