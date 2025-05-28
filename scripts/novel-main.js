@@ -69,8 +69,9 @@ function renderTextBlock(block, novel) {
     updateProgressBar();
 }
 
-function renderNewlineBlock(novel) {
-    const br = document.createElement('br');
+function renderNewlineBlock(block, novel) {
+    const br = document.createElement('div');
+    br.style.height = (block && block.space ? block.space : 24) + 'px';
     novel.appendChild(br);
     updateProgressBar();
 }
@@ -136,7 +137,7 @@ export function renderStory(startId = null) {
             renderTextBlock(block, novel);
             currentId = block.next;
         } else if (block.type === 'newline') {
-            renderNewlineBlock(novel);
+            renderNewlineBlock(block, novel);
             currentId = block.next;
         } else if (block.type === 'choice') {
             renderChoiceBlock(block, novel, (nextId, box, idx, label) => {
@@ -260,3 +261,27 @@ function handleScrollEvents() {
 }
 
 window.addEventListener('scroll', handleScrollEvents);
+
+function showSoundActivationOverlay() {
+    const overlay = document.getElementById('sound-activation-overlay');
+    if (!overlay) return;
+    overlay.hidden = false;
+    overlay.classList.remove('hide');
+    overlay.onclick = function activateAudio() {
+        const audio = document.getElementById('event-audio');
+        if (audio) {
+            audio.src = '';
+            audio.play().catch(()=>{});
+        }
+        overlay.classList.add('hide');
+        setTimeout(() => {
+            overlay.hidden = true;
+            overlay.classList.remove('hide');
+        }, 400);
+        overlay.onclick = null;
+    };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    showSoundActivationOverlay();
+});

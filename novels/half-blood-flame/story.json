@@ -77,13 +77,19 @@
         {
             "id": "act1_13",
             "type": "text",
-            "content": "'여기서 끝인가...",
+            "content": "'여기서 끝인가...'",
             "next": "act1_14"
         },
         {
             "id": "act1_14",
             "type": "text",
             "content": "작은 속삭임만 남기고, 카이렌의 의식은 깊은 어둠 속으로 빠져들었다.",
+            "next": "act1_14_newline"
+        },
+        {
+            "id": "act1_14_newline",
+            "type": "newline",
+            "space": 80,
             "next": "act1_15"
         },
         {
@@ -173,14 +179,26 @@
         },
         {
             "type": "background",
-            "trigger": 1200,
+            "trigger": 900,
+            "bg": "",
+            "bgMode": "once"
+        },
+        {
+            "type": "background",
+            "trigger": 1300,
             "bg": "novels/half-blood-flame/images/background-1-2.png",
             "bgMode": "once"
         },
         {
+            "type": "background",
+            "trigger": 2100,
+            "bg": "",
+            "bgMode": "once"
+        },
+        {
             "type": "sound",
-            "trigger": 600,
-            "sound": "sounds/event.mp3"
+            "trigger": 1000,
+            "sound": "novels/half-blood-flame/sounds/sfx-1-1.mp3"
         }
     ]
 }

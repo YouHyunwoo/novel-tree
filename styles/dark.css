@@ -38,3 +38,21 @@ body {
 .novel-text {
     line-height: 1.5;
 }
+
+.novel-list {
+    background: #23232b;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    padding: 2rem 1.5rem;
+}
+
+.novel-list ul {
+    background: transparent;
+}
+
+.novel-list li {
+    color: #eee;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}

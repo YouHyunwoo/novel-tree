@@ -18,7 +18,7 @@ body {
     color: #333;
     line-height: 1.4;
     padding: 2rem;
-    transition: background-color 0.4s cubic-bezier(0.4,0,0.2,1), color 0.4s cubic-bezier(0.4,0,0.2,1);
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-title {
@@ -96,7 +96,7 @@ body {
     z-index: 1;
 }
 
-.novel-link.thumbnail-bg > * {
+.novel-link.thumbnail-bg>* {
     position: relative;
     z-index: 2;
 }
@@ -116,7 +116,7 @@ body {
     font-size: 1.35rem;
     font-weight: 700;
     margin-bottom: 1.1rem;
-    text-shadow: 0 2px 8px rgba(30,32,40,0.25);
+    text-shadow: 0 2px 8px rgba(30, 32, 40, 0.25);
     display: block;
 }
 
@@ -144,7 +144,7 @@ body {
     font-size: 0.98rem;
     font-weight: 400;
     opacity: 0.85;
-    text-shadow: 0 2px 8px rgba(30,32,40,0.25);
+    text-shadow: 0 2px 8px rgba(30, 32, 40, 0.25);
     margin: 0;
     text-align: right;
     z-index: 2;
@@ -152,11 +152,21 @@ body {
 }
 
 @media (max-width: 1023px) {
-    body { font-size: 1.2rem; }
-    .novel-link { font-size: 1.1rem; }
+    body {
+        font-size: 1.2rem;
+    }
+
+    .novel-link {
+        font-size: 1.1rem;
+    }
 }
 
 @media (max-width: 767px) {
-    body { font-size: 1rem; }
-    .novel-link { font-size: 1rem; }
+    body {
+        font-size: 1rem;
+    }
+
+    .novel-link {
+        font-size: 1rem;
+    }
 }
