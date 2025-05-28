@@ -214,20 +214,25 @@ function setOverlayVisibility() {
 function handleScrollEvents() {
     if (!story || !story.events) return;
     const scrollY = window.scrollY;
-    // temporary 이벤트(일시적 배경)는 #bg-temp에서 처리
+    // temporary 이벤트(일시적 배경)는 #bg-temp, #bg-blur-temp에서 처리
     story.events.forEach(event => {
         if (event.type === 'background' && event.bgMode === 'temporary') {
             if (!triggeredEvents.has(event.trigger + '-temporary')) {
                 if (scrollY >= event.trigger) {
                     triggeredEvents.add(event.trigger + '-temporary');
                     const tempBg = document.getElementById('bg-temp');
-                    if (!tempBg) return;
+                    const tempBlurBg = document.getElementById('bg-blur-temp');
+                    if (!tempBg || !tempBlurBg) return;
                     tempBg.style.backgroundImage = `url('${event.bg}')`;
                     tempBg.classList.add('active');
+                    tempBlurBg.style.backgroundImage = `url('${event.bg}')`;
+                    tempBlurBg.classList.add('active');
                     setTimeout(() => {
                         tempBg.classList.remove('active');
+                        tempBlurBg.classList.remove('active');
                         setTimeout(() => {
                             tempBg.style.backgroundImage = 'none';
+                            tempBlurBg.style.backgroundImage = 'none';
                         }, 400);
                     }, event.duration || 2000);
                 }
@@ -246,7 +251,7 @@ function handleScrollEvents() {
             }
         }
     });
-    // once 유형 배경: 현재 구간에 맞는 배경 적용 (#bg-once)
+    // once 유형 배경: 현재 구간에 맞는 배경 적용 (#bg-once, #bg-blur-once)
     const onceEvents = story.events.filter(e => e.type === 'background' && e.bgMode === 'once');
     onceEvents.sort((a, b) => a.trigger - b.trigger);
     let appliedBg = null;
@@ -258,17 +263,25 @@ function handleScrollEvents() {
         }
     }
     const onceBg = document.getElementById('bg-once');
-    if (onceBg) {
+    const onceBlurBg = document.getElementById('bg-blur-once');
+    if (onceBg && onceBlurBg) {
         if (!originalBg) originalBg = '';
         if (appliedBg) {
             if (lastOnceBg !== appliedBg) {
                 onceBg.style.backgroundImage = `url('${appliedBg}')`;
                 onceBg.style.opacity = 1;
+                onceBg.classList.add('active');
+                onceBlurBg.style.backgroundImage = `url('${appliedBg}')`;
+                onceBlurBg.style.opacity = 1;
+                onceBlurBg.classList.add('active');
                 lastOnceBg = appliedBg;
             }
         } else {
             if (lastOnceBg !== null) {
                 onceBg.style.opacity = 0;
+                onceBg.classList.remove('active');
+                onceBlurBg.style.opacity = 0;
+                onceBlurBg.classList.remove('active');
                 lastOnceBg = null;
             }
         }
