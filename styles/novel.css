@@ -310,6 +310,19 @@ header {
     text-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
+.novel-logo-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.25em;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+}
+.novel-logo-link:hover {
+    color: #81c784; /* 팔레트의 Secondary 컬러 */
+    text-decoration: none;
+}
+
 @media (max-width: 1023px) {
     .novel-header { height: 50px; font-size: 1.2rem; }
     body { padding-top: 60px; font-size: 1.2rem; }
