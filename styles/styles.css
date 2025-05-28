@@ -151,6 +151,36 @@ body {
     margin-bottom: 5rem;
 }
 
+/* 로딩 스피너 스타일 */
+#loading-spinner {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.85);
+    z-index: 20000;
+    transition: opacity 0.3s;
+}
+#loading-spinner[aria-label]::before {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 56px;
+    border: 7px solid #5c6bc0;
+    border-top: 7px solid #e0e0e0;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 0.5rem;
+}
+#loading-spinner[aria-label]::after {
+    display: none;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 @media (max-width: 1023px) {
     .novel-header { height: 50px; font-size: 1.2rem; }
     body { padding-top: 60px; font-size: 1.2rem; }
