@@ -3,7 +3,7 @@ let progressBarCurrent = 0;
 let progressBarTarget = 0;
 let progressBarAnimating = false;
 
-function createProgressBar() {
+export function createProgressBar() {
     const bar = document.createElement('div');
     bar.className = 'progress-bar';
     document.body.appendChild(bar);
@@ -25,7 +25,7 @@ function animateProgressBar() {
     requestAnimationFrame(animateProgressBar);
 }
 
-function updateProgressBar() {
+export function updateProgressBar() {
     const bar = document.querySelector('.progress-bar');
     const scrollTop = window.scrollY;
     const docHeight = document.body.scrollHeight - window.innerHeight;

@@ -1,5 +1,5 @@
 // 헤더 관련 스크립트
-function createHeader() {
+export function createHeader() {
     const header = document.createElement('header');
     header.className = 'novel-header';
     header.innerHTML = '<span>인터랙티브 소설</span> <button class="menu-btn">☰</button>';
@@ -8,7 +8,7 @@ function createHeader() {
 }
 
 let lastScroll = 0;
-function handleHeader() {
+export function handleHeader() {
     const header = document.querySelector('header.novel-header');
     const curr = window.scrollY;
     if (curr > lastScroll && curr > 50) {

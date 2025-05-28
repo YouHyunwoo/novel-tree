@@ -1,10 +1,12 @@
+import { updateProgressBar } from './progress-bar.js';
+
 // 소설 내용(스토리) 관련 스크립트
 let choiceStates = {};
 let sceneMap = null;
 let renderedSceneIds = [];
 let story;
 
-function renderTitleAndAct() {
+export function renderTitleAndAct() {
     const novel = document.getElementById('novel');
     if (document.querySelector('.novel-title')) return;
     if (story && story.title) {
@@ -78,7 +80,7 @@ function renderChoiceBlock(block, novel, onChoice) {
     updateProgressBar();
 }
 
-function renderStory(startId = null) {
+export function renderStory(startId = null) {
     const novel = document.getElementById('novel');
     renderTitleAndAct();
     if (!sceneMap) buildSceneMap();
@@ -135,13 +137,13 @@ function renderStory(startId = null) {
     updateProgressBar();
 }
 
-function scrollToChoice(box) {
+export function scrollToChoice(box) {
     setTimeout(() => {
         box.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 }
 
-async function loadStory() {
+export async function loadStory() {
     const res = await fetch('novels/half-blood-flame/story.json');
     story = await res.json();
     sceneMap = null;

@@ -1,5 +1,5 @@
 // 다크 모드 토글 스크립트
-function setDarkMode(enabled) {
+export function setDarkMode(enabled) {
     const darkLink = document.getElementById('dark-css');
     const lightLink = document.getElementById('light-css');
     if (enabled) {
@@ -13,7 +13,7 @@ function setDarkMode(enabled) {
     }
 }
 
-function toggleDarkMode() {
+export function toggleDarkMode() {
     const darkLink = document.getElementById('dark-css');
     setDarkMode(darkLink.disabled);
 }
