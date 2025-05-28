@@ -2,7 +2,7 @@
 export function createHeader() {
     const header = document.createElement('header');
     header.className = 'novel-header';
-    header.innerHTML = '<span>인터랙티브 소설</span> <button class="menu-btn">☰</button>';
+    header.innerHTML = '<span>Novel Tree</span> <button class="menu-btn">☰</button>';
     document.body.prepend(header);
     return header;
 }
