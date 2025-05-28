@@ -163,5 +163,24 @@
             "content": "'앞으로 나는 어떻게 해야 하는가?' 그는 천천히 오두막의 문을 열고 바깥을 바라보았다. 그 앞에 펼쳐진 세상은 여전히 위험과 기회가 공존하는 혼돈이었다.",
             "next": null
         }
+    ],
+    "events": [
+        {
+            "type": "background",
+            "trigger": 100,
+            "bg": "novels/half-blood-flame/images/background-1-1.png",
+            "bgMode": "once"
+        },
+        {
+            "type": "background",
+            "trigger": 1200,
+            "bg": "novels/half-blood-flame/images/background-1-2.png",
+            "bgMode": "once"
+        },
+        {
+            "type": "sound",
+            "trigger": 600,
+            "sound": "sounds/event.mp3"
+        }
     ]
 }

@@ -189,3 +189,74 @@ export async function loadStory() {
 
 // 소설 본문(novel.html) 전용 스크립트
 // novel.html에서만 동작하도록 DOM 체크 및 예외 처리 추가
+
+// === 스크롤 트리거 이벤트 (story.json 기반, once/temporary 분리) ===
+let triggeredEvents = new Set();
+let originalBg = null;
+let lastOnceBg = null;
+
+function handleScrollEvents() {
+    if (!story || !story.events) return;
+    const scrollY = window.scrollY;
+    // temporary 이벤트(일시적 배경)는 #bg-temp에서 처리
+    story.events.forEach(event => {
+        if (event.type === 'background' && event.bgMode === 'temporary') {
+            if (!triggeredEvents.has(event.trigger + '-temporary')) {
+                if (scrollY >= event.trigger) {
+                    triggeredEvents.add(event.trigger + '-temporary');
+                    const tempBg = document.getElementById('bg-temp');
+                    if (!tempBg) return;
+                    tempBg.style.backgroundImage = `url('${event.bg}')`;
+                    tempBg.classList.add('active');
+                    setTimeout(() => {
+                        tempBg.classList.remove('active');
+                        setTimeout(() => {
+                            tempBg.style.backgroundImage = 'none';
+                        }, 400);
+                    }, event.duration || 2000);
+                }
+            }
+        } else if (event.type === 'sound') {
+            if (!triggeredEvents.has(event.trigger + '-sound')) {
+                if (scrollY >= event.trigger) {
+                    triggeredEvents.add(event.trigger + '-sound');
+                    const audio = document.getElementById('event-audio');
+                    if (audio && event.sound) {
+                        audio.src = event.sound;
+                        audio.currentTime = 0;
+                        audio.play().catch(()=>{});
+                    }
+                }
+            }
+        }
+    });
+    // once 유형 배경: 현재 구간에 맞는 배경 적용 (#bg-once)
+    const onceEvents = story.events.filter(e => e.type === 'background' && e.bgMode === 'once');
+    onceEvents.sort((a, b) => a.trigger - b.trigger);
+    let appliedBg = null;
+    for (let i = 0; i < onceEvents.length; i++) {
+        if (scrollY >= onceEvents[i].trigger) {
+            appliedBg = onceEvents[i].bg;
+        } else {
+            break;
+        }
+    }
+    const onceBg = document.getElementById('bg-once');
+    if (onceBg) {
+        if (!originalBg) originalBg = '';
+        if (appliedBg) {
+            if (lastOnceBg !== appliedBg) {
+                onceBg.style.backgroundImage = `url('${appliedBg}')`;
+                onceBg.style.opacity = 1;
+                lastOnceBg = appliedBg;
+            }
+        } else {
+            if (lastOnceBg !== null) {
+                onceBg.style.opacity = 0;
+                lastOnceBg = null;
+            }
+        }
+    }
+}
+
+window.addEventListener('scroll', handleScrollEvents);
