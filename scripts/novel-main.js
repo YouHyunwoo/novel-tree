@@ -285,6 +285,10 @@ function handleScrollEvents() {
         } else {
             if (lastOnceBg !== null) {
                 onceBg.style.opacity = 0;
+                setTimeout(() => {
+                    if (onceBg) onceBg.style.backgroundImage = 'none';
+                    if (onceBlurBg) onceBlurBg.style.backgroundImage = 'none';
+                }, 400);
                 onceBg.classList.remove('active');
                 onceBlurBg.style.opacity = 0;
                 onceBlurBg.classList.remove('active');
