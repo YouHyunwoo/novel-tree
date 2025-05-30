@@ -78,6 +78,26 @@ header {
     font-size: 1.7rem;
     line-height: 1.5;
     font-family: 'SourceHanSerifK', 'Noto Serif KR', '본명조', serif;
+    position: relative;
+}
+
+.novel-text .trigger-bar {
+    position: absolute;
+    left: -12px;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #ffb347 0%, #ffcc80 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 4px 0 rgba(255, 180, 71, 0.2);
+    opacity: 1;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.novel-text .trigger-bar.hide {
+    opacity: 0;
 }
 
 .choice-box {
@@ -144,10 +164,14 @@ header {
     padding-right: 0.1em;
 }
 .novel-title {
+    margin-top: 28vh;
+    margin-bottom: 8vh;
     font-size: 3rem;
     font-weight: 900;
     letter-spacing: 0.03em;
-    margin-bottom: 10rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.25);
 }
 .novel-act {
     font-size: 2.2rem;
@@ -201,7 +225,7 @@ header {
 }
 
 /* 블러 처리된 뒤 배경 이미지 (cover, blur) */
-#bg-blur-once, #bg-blur-temp {
+#bg-blur-normal, #bg-blur-temp {
     position: fixed;
     top: 0;
     left: 0;
@@ -218,12 +242,36 @@ header {
     opacity: 0;
     z-index: 90;
 }
-#bg-blur-once.active, #bg-blur-temp.active {
+#bg-blur-normal.active, #bg-blur-temp.active {
     opacity: 1;
 }
 
 /* 앞에 겹치는 선명한 배경 이미지 (contain, blur 없음) */
-#bg-once, #bg-temp {
+#bg-normal, #bg-normal-buffer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+#bg-normal.active, #bg-normal-buffer.active {
+    opacity: 1;
+}
+#bg-normal {
+    z-index: -2;
+}
+#bg-normal-buffer {
+    z-index: -1;
+}
+
+#bg-temp {
     position: fixed;
     top: 0;
     left: 0;
@@ -239,15 +287,15 @@ header {
     opacity: 0;
     z-index: 100;
 }
-#bg-once.active, #bg-temp.active {
+#bg-temp.active {
     opacity: 1;
 }
 
 /* 기존 ::before 블러 처리, inherit 등 모두 제거 */
-#bg-once::before, #bg-temp::before {
+#bg-normal::before, #bg-temp::before {
     content: none;
 }
-#bg-blur-once::before, #bg-blur-temp::before {
+#bg-blur-normal::before, #bg-blur-temp::before {
     content: none;
 }
 
@@ -323,6 +371,29 @@ header {
     text-decoration: none;
 }
 
+/* 트리거 기준 하이라이트 효과(미세하게 밝아짐, 테두리 없음) */
+.trigger-highlight {
+    background: linear-gradient(90deg, rgba(255,255,220,0.13) 0%, rgba(255,255,220,0.18) 100%);
+    transition: background 0.3s;
+    /* 테두리, 그림자 제거 */
+    box-shadow: none;
+    border-radius: inherit;
+    animation: none;
+}
+
+/* 화면 중앙에 얇은 빨간색 막대 표시 (테스트용) */
+.center-red-bar {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    width: 100vw;
+    height: 2px;
+    background: red;
+    z-index: 9999;
+    pointer-events: none;
+    transform: translateY(-1px);
+}
+
 @media (max-width: 1023px) {
     .novel-header { height: 50px; font-size: 1.2rem; }
     body { padding-top: 60px; font-size: 1.2rem; }
@@ -335,4 +406,9 @@ header {
     body { padding-top: 50px; font-size: 1rem; }
     .novel-text, .choice-box { font-size: 1rem; }
     .choice-button { font-size: 0.95rem; }
+    .novel-title {
+        margin-top: 18vh;
+        margin-bottom: 4vh;
+        font-size: 2rem;
+    }
 }
