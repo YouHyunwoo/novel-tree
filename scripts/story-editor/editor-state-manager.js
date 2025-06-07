@@ -43,6 +43,18 @@ export class EditorStateManager {
     setSelectedNodeId(nodeId) {
         this.selectedNodeId = nodeId;
     }
+    /**
+     * 활성 노드 ID를 설정
+     */
+    setActiveNode(nodeId) {
+        this.setSelectedNodeId(nodeId);
+    }
+    /**
+     * 활성 노드 객체 반환
+     */
+    getActiveNode() {
+        return this.nodes.find(n => n.id === this.selectedNodeId) || null;
+    }
     reset() {
         this.nodes = [];
         this.statusList = [];

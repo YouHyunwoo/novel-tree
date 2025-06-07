@@ -17,6 +17,7 @@ export class EditorEventBinder {
         this.bindStatusPanelEvents();
         this.bindNodePanelEvents();
         this.bindMoveToStartBtn();
+        this.bindShortcutAddNodeEvents();
         // ...필요시 기타 이벤트 바인딩...
     }
     /**
@@ -46,16 +47,213 @@ export class EditorEventBinder {
         });
     }
     /**
-     * 노드 패널(노드 더블클릭 등) 이벤트 바인딩
+     * 노드 패널(노드 클릭/더블클릭 등) 이벤트 바인딩
      */
     bindNodePanelEvents() {
         const nodeCanvas = document.getElementById('node-canvas');
         if (!nodeCanvas) return;
+        let dragState = null;
+        let handleDragState = null;
+        // 노드 드래그 시작
+        nodeCanvas.addEventListener('mousedown', (e) => {
+            // 핸들에서 드래그 시작 금지
+            if (e.target.classList.contains('next-link-handle')) return;
+            const nodeDiv = e.target.closest('.story-node');
+            if (!nodeDiv) return;
+            const nodeId = nodeDiv.getAttribute('data-id');
+            if (nodeId === 'start') return; // 시작 노드는 이동 금지
+            // 좌클릭만 허용
+            if (e.button !== 0) return;
+            const node = this.nodeManager.getNodeById(nodeId);
+            if (!node) return;
+            dragState = {
+                nodeId,
+                startX: e.clientX,
+                startY: e.clientY,
+                origX: node.x || 0,
+                origY: node.y || 0
+            };
+            document.body.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+        // 노드 드래그 이동
+        window.addEventListener('mousemove', (e) => {
+            if (!dragState) return;
+            const dx = e.clientX - dragState.startX;
+            const dy = e.clientY - dragState.startY;
+            const newX = dragState.origX + dx;
+            const newY = dragState.origY + dy;
+            this.nodeManager.moveNode(dragState.nodeId, newX, newY);
+            this.viewRenderer.renderNodes();
+        });
+        // 노드 드래그 종료
+        window.addEventListener('mouseup', (e) => {
+            if (dragState) {
+                dragState = null;
+                document.body.style.cursor = '';
+            }
+        });
+        // 노드 클릭 시 활성화 및 콘솔 출력
+        nodeCanvas.addEventListener('click', (e) => {
+            // 다음 노드 핸들 클릭 시 새 노드 생성 및 연결
+            if (e.target.classList.contains('next-link-handle')) {
+                const nodeDiv = e.target.closest('.story-node');
+                if (!nodeDiv) return;
+                const nodeId = nodeDiv.getAttribute('data-id');
+                // 이미 next가 연결되어 있으면 무시(원한다면 덮어쓰기 가능)
+                const node = this.nodeManager.getNodeById(nodeId);
+                if (node && node.type === 'text' && node.next) return;
+                // 새 본문 노드 생성 및 연결
+                const newNode = this.nodeManager.addNodeAfter(nodeId, '본문');
+                if (newNode) {
+                    this.editorState.setActiveNode(newNode.id);
+                    this.viewRenderer.renderNodes();
+                }
+                return;
+            }
+            // 일반 노드 클릭 시 활성화
+            const nodeDiv = e.target.closest('.story-node');
+            if (!nodeDiv) return;
+            const nodeId = nodeDiv.getAttribute('data-id');
+            this.editorState.setActiveNode(nodeId);
+            this.viewRenderer.renderNodes();
+        });
+        // 노드 더블클릭 시 편집 다이얼로그
         nodeCanvas.addEventListener('dblclick', (e) => {
             const nodeDiv = e.target.closest('.story-node');
             if (!nodeDiv) return;
-            const nodeId = nodeDiv.textContent;
+            const nodeId = nodeDiv.getAttribute('data-id');
             this.nodeDialogManager.openDialog(nodeId);
+        });
+        // 시트 클릭 시 활성화 해제
+        const sheetWrapper = document.getElementById('sheet-wrapper');
+        if (sheetWrapper) {
+            sheetWrapper.addEventListener('click', (e) => {
+                // 노드 클릭이 아닌 경우에만 비활성화
+                if (!e.target.closest('.story-node')) {
+                    this.editorState.setActiveNode(null);
+                    if (this.viewRenderer.renderNodes) this.viewRenderer.renderNodes();
+                }
+            });
+        }
+        // 핸들 드래그 시작
+        nodeCanvas.addEventListener('mousedown', (e) => {
+            if (e.target.classList.contains('next-link-handle')) {
+                const nodeDiv = e.target.closest('.story-node');
+                if (!nodeDiv) return;
+                const nodeId = nodeDiv.getAttribute('data-id');
+                const node = this.nodeManager.getNodeById(nodeId);
+                if (!node || node.type !== 'text' || node.next) return;
+                handleDragState = {
+                    fromNodeId: nodeId,
+                    startX: e.clientX,
+                    startY: e.clientY,
+                    dragging: false
+                };
+                document.body.style.cursor = 'crosshair';
+                e.preventDefault();
+            }
+        });
+        // 핸들 드래그 중 연결선 프리뷰
+        window.addEventListener('mousemove', (e) => {
+            if (!handleDragState) return;
+            // 드래그 거리 임계값 이상이면 드래그로 간주
+            if (!handleDragState.dragging && (Math.abs(e.clientX - handleDragState.startX) > 3 || Math.abs(e.clientY - handleDragState.startY) > 3)) {
+                handleDragState.dragging = true;
+            }
+            // 연결선 프리뷰 SVG
+            const nodeCanvas = document.getElementById('node-canvas');
+            let previewSvg = nodeCanvas.querySelector('svg.handle-link-preview');
+            if (!previewSvg) {
+                previewSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                previewSvg.classList.add('handle-link-preview');
+                previewSvg.style.position = 'absolute';
+                previewSvg.style.left = '0';
+                previewSvg.style.top = '0';
+                previewSvg.style.width = '100%';
+                previewSvg.style.height = '100%';
+                previewSvg.style.pointerEvents = 'none';
+                nodeCanvas.appendChild(previewSvg);
+            }
+            previewSvg.innerHTML = '';
+            // from: 핸들 오른쪽 중앙
+            const fromDiv = nodeCanvas.querySelector(`.story-node[data-id="${handleDragState.fromNodeId}"]`);
+            const handle = fromDiv && fromDiv.querySelector('.next-link-handle');
+            const handleRect = handle ? handle.getBoundingClientRect() : fromDiv.getBoundingClientRect();
+            const canvasRect = nodeCanvas.getBoundingClientRect();
+            const startX = handleRect.right - canvasRect.left;
+            const startY = (handleRect.top + handleRect.bottom) / 2 - canvasRect.top;
+            // to: 마우스 위치
+            const endX = e.clientX - canvasRect.left;
+            const endY = e.clientY - canvasRect.top;
+            const deltaX = Math.max(40, Math.abs(endX - startX) / 2);
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d',
+                `M${startX},${startY} C${startX + deltaX},${startY} ${endX - deltaX},${endY} ${endX},${endY}`
+            );
+            path.setAttribute('stroke', '#3949ab');
+            path.setAttribute('stroke-width', '2');
+            path.setAttribute('fill', 'none');
+            path.setAttribute('opacity', '0.5');
+            previewSvg.appendChild(path);
+        });
+        // 핸들 드래그 종료(드롭)
+        window.addEventListener('mouseup', (e) => {
+            if (!handleDragState) return;
+            document.body.style.cursor = '';
+            const nodeCanvas = document.getElementById('node-canvas');
+            const previewSvg = nodeCanvas.querySelector('svg.handle-link-preview');
+            if (previewSvg) previewSvg.remove();
+            // 드래그가 아닌 클릭(즉시 생성)
+            if (!handleDragState.dragging) {
+                // 기존 클릭 동작: 핸들 클릭 시 바로 생성
+                const fromNodeId = handleDragState.fromNodeId;
+                const node = this.nodeManager.getNodeById(fromNodeId);
+                if (node && node.type === 'text' && !node.next) {
+                    const newNode = this.nodeManager.addNodeAfter(fromNodeId, '본문');
+                    if (newNode) {
+                        this.editorState.setActiveNode(newNode.id);
+                        this.viewRenderer.renderNodes();
+                    }
+                }
+                handleDragState = null;
+                return;
+            }
+            // 드래그로 놓은 경우: 마우스 위치에 새 노드 생성
+            const fromNodeId = handleDragState.fromNodeId;
+            const node = this.nodeManager.getNodeById(fromNodeId);
+            if (node && node.type === 'text' && !node.next) {
+                const nodeCanvasRect = nodeCanvas.getBoundingClientRect();
+                const dropX = e.clientX - nodeCanvasRect.left;
+                const dropY = e.clientY - nodeCanvasRect.top;
+                // 새 노드 생성 및 연결
+                const newNode = this.nodeManager.addNodeAfter(fromNodeId, '본문');
+                if (newNode) {
+                    // 위치 지정
+                    this.nodeManager.moveNode(newNode.id, dropX - 110, dropY - 50); // 노드 크기 보정(가로220, 세로100)
+                    this.editorState.setActiveNode(newNode.id);
+                    this.viewRenderer.renderNodes();
+                }
+            }
+            handleDragState = null;
+        });
+        // 노드 오른쪽 클릭 시 편집 다이얼로그
+        nodeCanvas.addEventListener('contextmenu', (e) => {
+            const nodeDiv = e.target.closest('.story-node');
+            if (!nodeDiv) return;
+            const nodeId = nodeDiv.getAttribute('data-id');
+            e.preventDefault();
+            this.nodeDialogManager.openDialog(nodeId);
+        });
+        // delete 키로 활성 노드 삭제
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Delete' && e.key !== 'Del') return;
+            const activeNode = this.editorState.getActiveNode && this.editorState.getActiveNode();
+            if (!activeNode) return;
+            if (activeNode.id === 'start') return; // 시작 노드는 삭제 금지
+            this.nodeManager.removeNode(activeNode.id);
+            this.editorState.setActiveNode(null);
+            this.viewRenderer.renderNodes();
         });
     }
     /**
@@ -83,6 +281,28 @@ export class EditorEventBinder {
             const scrollLeft = Math.max(0, nodeX - wrapperW / 2 + 100); // 100은 노드 크기 보정
             const scrollTop = Math.max(0, nodeY - wrapperH / 2 + 40);
             sheetWrapper.scrollTo({ left: scrollLeft, top: scrollTop, behavior: 'smooth' });
+        });
+    }
+    /**
+     * 단축키(1,2,3)로 노드 추가 이벤트 바인딩
+     */
+    bindShortcutAddNodeEvents() {
+        document.addEventListener('keydown', (e) => {
+            // 입력 포커스가 인풋, 텍스트에어리어, 컨텐츠에디터블이면 무시
+            const tag = document.activeElement && document.activeElement.tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.isContentEditable) return;
+            let type = null;
+            if (e.key === '1') type = '본문';
+            if (e.key === '2') type = '선택지';
+            if (e.key === '3') type = '조건분기';
+            if (!type) return;
+            const activeNode = this.editorState.getActiveNode && this.editorState.getActiveNode();
+            if (!activeNode) return;
+            const newNode = this.nodeManager.addNodeAfter(activeNode.id, type);
+            if (newNode) {
+                this.editorState.setActiveNode(newNode.id);
+                this.viewRenderer.renderNodes();
+            }
         });
     }
 }

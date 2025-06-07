@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Novel Tree 스토리 에디터</title>
+    <link rel="stylesheet" href="styles/story-editor.css">
+    <script type="module" src="scripts/story-editor.js"></script>
+</head>
+<body>
+    <div id="editor-header-bar">
+        <input id="novel-title-input" type="text" placeholder="소설 제목을 입력하세요" autocomplete="off" />
+        <button id="export-nodes-btn" type="button">저장</button>
+        <button id="import-nodes-btn" type="button">불러오기</button>
+        <input id="import-nodes-file" type="file" accept="application/json" style="display:none" />
+    </div>
+    <div id="editor-container">
+        <div id="sheet-wrapper" style="width:100%;height:100%;overflow:auto;position:relative;">
+            <div id="node-canvas" style="position:absolute;left:0;top:0;width:3000px;height:2000px;"></div>
+        </div>
+    </div>
+
+    <!-- 노드 편집 다이얼로그 -->
+    <dialog id="node-dialog">
+        <form id="node-form" autocomplete="off">
+            <label>
+                노드 이름:
+                <input id="node-name" type="text" maxlength="32" placeholder="노드 이름(선택)" style="width:100%;margin-bottom:8px;">
+            </label>
+            <label>
+                노드 유형:
+                <select id="node-type">
+                    <option value="text">본문</option>
+                    <option value="choice">선택지</option>
+                    <option value="condition">조건 분기</option>
+                </select>
+            </label>
+            <label>
+                내용:
+                <textarea id="node-content" rows="4"></textarea>
+            </label>
+            <div id="choice-options" style="display:none;">
+                <label>선택지 목록 (한 줄에 하나씩):</label>
+                <textarea id="choice-list" rows="3"></textarea>
+            </div>
+            <div id="condition-options" style="display:none;">
+                <label>분기 조건:</label>
+                <input id="condition-expression" type="text" placeholder="예: state.hasKey == true">
+            </div>
+            <div id="event-options">
+                <label>이벤트 목록</label>
+                <ul id="event-list"></ul>
+                <div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:nowrap;">
+                    <select id="event-type" autocomplete="off">
+                        <option value="background">배경 변경</option>
+                        <option value="sound">효과음 재생</option>
+                    </select>
+                    <input type="text" id="event-param" placeholder="이미지/사운드 파일명" autocomplete="off">
+                    <button type="button" id="add-event-btn">추가</button>
+                </div>
+            </div>
+            <menu>
+                <button type="button" id="cancel-btn">취소</button>
+                <button type="submit" id="save-btn">저장</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <button id="move-to-start-btn" class="floating-move-btn" title="시작 노드로 이동">⭳ 시작 노드</button>
+</body>
+</html>

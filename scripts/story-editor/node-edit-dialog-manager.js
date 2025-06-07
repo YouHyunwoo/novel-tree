@@ -2,9 +2,10 @@
  * 노드 편집 다이얼로그 관리 클래스
  */
 export class NodeEditDialogManager {
-    constructor(editorState, nodeManager) {
+    constructor(editorState, nodeManager, viewRenderer) {
         this.editorState = editorState;
         this.nodeManager = nodeManager;
+        this.viewRenderer = viewRenderer;
         this.dialog = null;
         this.currentNodeId = null;
     }
@@ -70,5 +71,8 @@ export class NodeEditDialogManager {
         if (!name) return;
         this.nodeManager.updateNode(this.currentNodeId, { name, type, content });
         this.closeDialog();
+        if (this.viewRenderer && this.viewRenderer.renderNodes) {
+            this.viewRenderer.renderNodes();
+        }
     }
 }

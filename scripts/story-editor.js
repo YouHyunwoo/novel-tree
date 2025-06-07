@@ -12,7 +12,7 @@ const editorState = new EditorStateManager();
 const nodeManager = new NodeDataManager(editorState);
 const statusManager = new NovelStatusManager(editorState);
 const viewRenderer = new EditorViewRenderer(editorState, nodeManager, statusManager);
-const nodeDialogManager = new NodeEditDialogManager(editorState, nodeManager);
+const nodeDialogManager = new NodeEditDialogManager(editorState, nodeManager, viewRenderer);
 const statusDialogManager = new StatusEditDialogManager(editorState, statusManager);
 const eventBinder = new EditorEventBinder(
     editorState, nodeManager, statusManager, viewRenderer, nodeDialogManager, statusDialogManager
