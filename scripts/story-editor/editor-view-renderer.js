@@ -136,10 +136,13 @@ export class EditorViewRenderer {
             nextSpan.className = 'node-next';
             let nextText = '';
             if (node.next) {
-                const maxLen = 10;
-                const shown = node.next.length > maxLen ? node.next.slice(0, maxLen) + '...' : node.next;
+                // 연결된 노드의 이름을 찾아서 표시
+                const nextNode = this.nodeManager.getNodeById(node.next);
+                const nextName = nextNode ? nextNode.name || nextNode.id : node.next;
+                const maxLen = 12;
+                const shown = nextName.length > maxLen ? nextName.slice(0, maxLen) + '...' : nextName;
                 nextText = ` → 다음: ${shown}`;
-                nextSpan.title = node.next; // 전체 id는 툴팁으로
+                nextSpan.title = nextName; // 전체 이름을 툴팁으로
             } else {
                 nextText = ' → 다음: 없음';
             }
