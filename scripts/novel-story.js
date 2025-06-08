@@ -71,7 +71,7 @@ function renderChoiceBlock(block, novel, onChoice) {
     const box = document.createElement('div');
     box.className = 'choice-box fade-in';
     const question = document.createElement('p');
-    question.textContent = block.question;
+    question.textContent = block.content;
     box.appendChild(question);
     block.choices.forEach((opt, idx) => {
         const btn = document.createElement('button');
