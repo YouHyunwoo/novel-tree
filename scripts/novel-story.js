@@ -31,15 +31,29 @@ export function renderTitleAndAct() {
 
 function buildSceneMap() {
     sceneMap = {};
-    story.scenes.forEach(scene => {
-        sceneMap[scene.id] = scene;
-    });
+    if (story && Array.isArray(story.nodes)) {
+        story.nodes.forEach(node => {
+            sceneMap[node.id] = node;
+        });
+    }
+}
+
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 function renderTextBlock(block, novel) {
     const p = document.createElement('p');
     p.className = 'novel-text fade-in';
-    p.textContent = block.content;
+    // content의 \n을 <br>로 변환, XSS 방지용 escape 처리
+    if (block.content) {
+        p.innerHTML = escapeHtml(block.content).replace(/\n/g, '<br>');
+    }
     if (block.id) p.setAttribute('data-scene-id', block.id);
     novel.appendChild(p);
     setTimeout(() => p.classList.add('visible'), 30);
@@ -59,10 +73,10 @@ function renderChoiceBlock(block, novel, onChoice) {
     const question = document.createElement('p');
     question.textContent = block.question;
     box.appendChild(question);
-    block.options.forEach((opt, idx) => {
+    block.choices.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'choice-button';
-        btn.textContent = opt.label;
+        btn.textContent = opt.text;
         if (choiceStates[block.id] !== undefined) {
             if (choiceStates[block.id] === idx) {
                 btn.classList.add('selected');
@@ -76,7 +90,7 @@ function renderChoiceBlock(block, novel, onChoice) {
         btn.onclick = () => {
             if (choiceStates[block.id] === undefined) {
                 choiceStates[block.id] = idx;
-                onChoice(opt.next, box, idx, opt.label);
+                onChoice(opt.next, box, idx, opt.text);
             }
         };
         box.appendChild(btn);
@@ -90,21 +104,16 @@ export function renderStory(startId = null) {
     const novel = document.getElementById('novel');
     renderTitleAndAct();
     if (!sceneMap) buildSceneMap();
-    if (startId) {
-        const idx = renderedSceneIds.indexOf(startId);
-        if (idx !== -1) {
-            let removeCount = renderedSceneIds.length - idx;
-            for (let i = 0; i < removeCount; i++) {
-                let last = novel.lastElementChild;
-                while (last && (last.classList.contains('novel-title') || last.classList.contains('novel-act'))) {
-                    last = last.previousElementSibling;
-                }
-                if (last) novel.removeChild(last);
-            }
-            renderedSceneIds = renderedSceneIds.slice(0, idx);
-        }
+    if (!story || !Array.isArray(story.nodes)) return;
+    // renderedSceneIds가 비어있지 않으면, 기존 내용은 유지하고 이어서 렌더링
+    if (!Array.isArray(renderedSceneIds)) {
+        renderedSceneIds = [];
     }
-    let currentId = startId || (renderedSceneIds.length === 0 ? story.scenes[0].id : renderedSceneIds[renderedSceneIds.length - 1]);
+    
+    // startId가 없고, renderedSceneIds가 비어있으면 첫 블럭 id로 시작
+    let firstId = (story.nodes && story.nodes.length > 0 && story.nodes[0].id) ? story.nodes[0].id : null;
+    let currentId = startId || (renderedSceneIds.length === 0 ? firstId : renderedSceneIds[renderedSceneIds.length - 1]);
+    if (!currentId) return;
     let count = 0;
     while (currentId && !renderedSceneIds.includes(currentId)) {
         const block = sceneMap[currentId];
@@ -132,7 +141,11 @@ export function renderStory(startId = null) {
                 scrollToChoice(box);
             });
             if (choiceStates[block.id] === undefined) break;
-            currentId = block.options[choiceStates[block.id]].next;
+            if (Array.isArray(block.options) && block.options[choiceStates[block.id]]) {
+                currentId = block.options[choiceStates[block.id]].next;
+            } else {
+                break;
+            }
         } else {
             break;
         }

@@ -1,0 +1,415 @@
+{
+    "title": "혼혈의 불꽃",
+    "act": "I. 전쟁과 패배",
+    "scenes": [
+        {
+            "id": "act1_1",
+            "type": "text",
+            "content": "하늘이 검붉은 핏빛으로 물들었다. 불타오르는 들판 위에서 피와 쇠의 냄새가 진동했다. 전장 한가운데, 날카로운 비명과 절규, 죽어가는 자들의 신음이 뒤섞였다.",
+            "next": "act1_2",
+            "triggerEvents": [
+                {
+                    "type": "background",
+                    "bg": "",
+                    "bgMode": "normal"
+                }
+            ]
+        },
+        {
+            "id": "act1_2",
+            "type": "text",
+            "content": "\"후퇴는 없다! 마왕님을 위하여!\"",
+            "next": "act1_3",
+            "triggerEvents": [
+                {
+                    "type": "background",
+                    "bg": "novels/half-blood-flame/images/background-1-1.png",
+                    "bgMode": "normal"
+                }
+            ]
+        },
+        {
+            "id": "act1_3",
+            "type": "text",
+            "content": "사령관 마물의 거친 목소리가 전장을 메웠다. 그 가운데, 검은 갑옷을 입은 마물 하나가 서 있었다. 그의 이름은 '카이렌'. 하층 출신으로 마력조차 제대로 다루지 못하던 그였지만, 전장에서의 잔혹함과 냉철한 판단력 덕분에 어느새 전투의 선봉에 서 있었다.",
+            "next": "act1_4"
+        },
+        {
+            "id": "act1_4",
+            "type": "text",
+            "content": "그러나 이번 전투는 달랐다.",
+            "next": "act1_5"
+        },
+        {
+            "id": "act1_5",
+            "type": "text",
+            "content": "인간 군대가 준비한 함정이었다. 마법으로 무장한 인간 병사들이 사방에서 나타나 카이렌의 부대를 포위했다. 카이렌은 즉시 검을 뽑아 들고 싸우기 시작했으나, 압도적인 수적 열세는 극복할 수 없었다.",
+            "next": "act1_6"
+        },
+        {
+            "id": "act1_6",
+            "type": "text",
+            "content": "'이대로 끝인가?'",
+            "next": "act1_7"
+        },
+        {
+            "id": "act1_7",
+            "type": "text",
+            "content": "불타는 화살이 어깨를 스쳐 지나갔다. 고통이 전신을 찔렀지만, 그는 이를 악물고 버텼다.",
+            "next": "act1_8"
+        },
+        {
+            "id": "act1_8",
+            "type": "text",
+            "content": "\"끝까지 싸워라! 한 명이라도 더 인간을 쓰러뜨려라!\"",
+            "next": "act1_9"
+        },
+        {
+            "id": "act1_9",
+            "type": "text",
+            "content": "그의 명령에도 병사들은 하나둘 쓰러져 갔다. 혼돈 속에서 인간 병사의 마법 화살이 그의 가슴에 깊숙이 박혔다. 숨이 턱 막히는 고통에 그는 무릎을 꿇었다.",
+            "next": "act1_10"
+        },
+        {
+            "id": "act1_10",
+            "type": "text",
+            "content": "'이대로 죽을 수는 없다.'",
+            "next": "act1_11"
+        },
+        {
+            "id": "act1_11",
+            "type": "text",
+            "content": "그는 필사적으로 전장을 벗어나기 위해 움직였다. 흔들리는 시야와 흐릿해진 의식으로 간신히 전장에서 멀어진 카이렌은 울창한 숲 가장자리까지 도달했다.",
+            "next": "act1_12",
+            "triggerEvents": [
+                {
+                    "type": "sound",
+                    "sound": "novels/half-blood-flame/sounds/sfx-1-1.mp3"
+                }
+            ]
+        },
+        {
+            "id": "act1_12",
+            "type": "text",
+            "content": "어둠 속 깊숙이 몸을 숨긴 채, 그는 마지막 힘을 짜내며 쓰러졌다. 눈꺼풀이 무겁게 내려앉았고, 의식은 점점 흐려졌다.",
+            "next": "act1_13"
+        },
+        {
+            "id": "act1_13",
+            "type": "text",
+            "content": "'여기서 끝인가...'",
+            "next": "act1_14"
+        },
+        {
+            "id": "act1_14",
+            "type": "text",
+            "content": "작은 속삭임만 남기고, 카이렌의 의식은 깊은 어둠 속으로 빠져들었다.",
+            "next": "act1_14_newline"
+        },
+        {
+            "id": "act1_14_newline",
+            "type": "newline",
+            "space": 80,
+            "next": "act1_15"
+        },
+        {
+            "id": "act1_15",
+            "type": "text",
+            "content": "카이렌이 깨어났을 때, 그의 주변은 희미한 등불의 빛으로 물들어 있었다. 자신을 돌보던 인간 여자가 놀란 표정으로 그를 바라보고 있었다.",
+            "next": "act1_16",
+            "triggerEvents": [
+                {
+                    "type": "background",
+                    "bg": "novels/half-blood-flame/images/background-1-2.png",
+                    "bgMode": "normal"
+                }
+            ]
+        },
+        {
+            "id": "act1_16",
+            "type": "text",
+            "content": "\"진정해요. 나는 당신을 해칠 생각이 없어요.\"",
+            "next": "act1_17"
+        },
+        {
+            "id": "act1_17",
+            "type": "text",
+            "content": "카이렌은 긴장하며 주위를 둘러보았다. 작은 오두막 내부였다. 그는 혼란스러운 마음으로 상황을 판단하려 애썼다.",
+            "next": "choice_1"
+        },
+        {
+            "id": "choice_1",
+            "type": "choice",
+            "question": "인간 여자의 말을 믿겠습니까?",
+            "options": [
+                {
+                    "label": "인간 여자의 말을 믿고 조용히 있는다.",
+                    "effects": {
+                        "trust": 10
+                    },
+                    "next": "act1_18a"
+                },
+                {
+                    "label": "인간 여자의 말이 믿기지 않아 경계하며 공격할 준비를 한다.",
+                    "effects": {
+                        "trust": -10
+                    },
+                    "next": "act1_18b"
+                }
+            ]
+        },
+        {
+            "id": "act1_18a",
+            "type": "text",
+            "content": "카이렌은 긴장을 풀고 천천히 숨을 내쉬었다. 마음 한구석에 희미한 신뢰가 싹트기 시작했다.",
+            "next": "act1_19"
+        },
+        {
+            "id": "act1_18b",
+            "type": "text",
+            "content": "카이렌은 몸에 힘을 주며 그녀를 날카롭게 주시했다. 그의 경계심이 오두막 안의 공기를 무겁게 만들었다.",
+            "next": "act1_19"
+        },
+        {
+            "id": "act1_19",
+            "type": "text",
+            "content": "카이렌은 선택 이후에도 여전히 복잡한 마음을 품고 있었다. 인간 여자의 행동 하나하나에 의심과 안도 사이를 오갔다. 자신이 지금껏 알고 있던 모든 것이 흔들리고 있었다.",
+            "next": "act1_20"
+        },
+        {
+            "id": "act1_20",
+            "type": "text",
+            "content": "'과연 나는 어디에 서야 하는 걸까?' 그 질문은 깊은 어둠 속에서 그를 더욱 혼란스럽게 했다.",
+            "next": "act1_21"
+        },
+        {
+            "id": "act1_21",
+            "type": "text",
+            "content": "마침내 몸이 회복된 카이렌은 오두막을 떠날지, 머물지 결정해야 했다. 그 결정이 앞으로의 운명을 결정지을 것이었다.",
+            "next": "act1_22"
+        },
+        {
+            "id": "act1_22",
+            "type": "text",
+            "content": "그는 마지막으로 오두막과 그를 살린 인간 여자를 바라보았다.",
+            "next": "act1_23"
+        },
+        {
+            "id": "act1_23",
+            "type": "text",
+            "content": "'앞으로 나는 어떻게 해야 하는가?' 그는 천천히 오두막의 문을 열고 바깥을 바라보았다. 그 앞에 펼쳐진 세상은 여전히 위험과 기회가 공존하는 혼돈이었다.",
+            "next": "act1_24"
+        },
+        {
+            "id": "act1_24",
+            "type": "text",
+            "content": "며칠간 회복하는 동안, 여자는 카이렌을 오두막 밖으로 데리고 나가 식물과 동물들을 하나씩 소개했다. 닭장 안에 알을 품은 암탉, 언덕 아래 작은 밭에서 자라고 있는 감자와 무, 그리고 장작더미 옆에서 몸을 웅크린 작은 염소들. 그녀는 이름도 붙여주고, 상태를 확인하며 다정하게 다루었다.",
+            "next": "act1_25"
+        },
+        {
+            "id": "act1_25",
+            "type": "text",
+            "content": "\"얘는 루시예요. 이번엔 알을 다섯 개나 낳았어요. 이건 로타, 가장 고집 센 염소죠.\"",
+            "next": "act1_26"
+        },
+        {
+            "id": "act1_26",
+            "type": "text",
+            "content": "카이렌은 그녀가 전혀 경계심 없이 동물들을 어루만지는 모습을 말없이 지켜보았다. 전쟁터에서는 살아남기 위해 칼을 들었고, 의심 없이 죽여야 했다. 그런데 이곳은, 누군가의 손길로 살아 숨 쉬는 생명들이 존재하고 있었다.",
+            "next": "act1_27"
+        },
+        {
+            "id": "act1_27",
+            "type": "text",
+            "content": "'이런 걸… 왜 지키려는 거지?' 그는 잠시 혼란에 빠졌다. 자신이 싸워온 이유와, 이들이 지켜온 일상이 너무 달랐다.",
+            "next": "act1_28"
+        },
+        {
+            "id": "act1_28",
+            "type": "text",
+            "content": "며칠이 지나자 카이렌은 어깨의 통증이 줄어들고, 맥박이 차츰 정상을 되찾았다. 그러나 그는 여전히 머물 자격이 있는지 갈등했다.",
+            "next": "act1_29"
+        },
+        {
+            "id": "act1_29",
+            "type": "text",
+            "content": "어느 날, 여자가 말했다. \"사냥을 도와주실 수 있을까요? 오늘은 고기 구할 차례거든요.\"",
+            "next": "act1_30"
+        },
+        {
+            "id": "act1_30",
+            "type": "text",
+            "content": "숲속은 어둡고 축축했다. 둘은 조용히 걸었다. 여자의 손에는 짧은 창이, 카이렌의 손에는 아직 무거운 검이 들려 있었다.",
+            "next": "act1_31"
+        },
+        {
+            "id": "act1_31",
+            "type": "text",
+            "content": "그때였다. 덤불 뒤에서 무언가가 튀어나왔다. '어둠의 발톱'이라 불리는 숲의 포식자였다.",
+            "next": "act1_32"
+        },
+        {
+            "id": "act1_32",
+            "type": "text",
+            "content": "카이렌은 망설이지 않고 몸을 던졌다. 짐승의 발톱이 그의 팔을 할퀴었지만, 그는 힘껏 검을 휘둘러 짐승을 몰아냈다.",
+            "next": "act1_33"
+        },
+        {
+            "id": "act1_33",
+            "type": "text",
+            "content": "싸움은 치열했다. 결국 카이렌은 짐승의 목덜미를 찔러 쓰러뜨렸다.",
+            "next": "act1_34"
+        },
+        {
+            "id": "act1_34",
+            "type": "text",
+            "content": "\"괜찮아요? 다친 데는요?\" 여자는 재빨리 자신의 겉옷을 찢어 그의 상처를 감쌌다.",
+            "next": "act1_35"
+        },
+        {
+            "id": "act1_35",
+            "type": "text",
+            "content": "\"도와줘서 고마워요. 아니었으면 정말 큰일 날 뻔했어요.\"",
+            "next": "act1_36"
+        },
+        {
+            "id": "act1_36",
+            "type": "text",
+            "content": "카이렌은 고개를 돌려 그녀를 바라보았다. 자신을 믿고 다가온 인간, 그리고 자신이 지켜낸 인간.",
+            "next": "act1_37"
+        },
+        {
+            "id": "act1_37",
+            "type": "text",
+            "content": "\"너희 같은 인간도… 있는 건가.\" 그는 조용히 입을 열었다.",
+            "next": "act1_38"
+        },
+        {
+            "id": "act1_38",
+            "type": "text",
+            "content": "그날 밤, 오두막에 돌아온 카이렌은 짐승의 피를 재료 삼아 치료제를 만들었다. 인간 여자의 아버지도 조용히 말했다. \"너도… 다르지 않군.\"",
+            "next": "act1_39"
+        },
+        {
+            "id": "act1_39",
+            "type": "text",
+            "content": "카이렌은 몸이 거의 회복되자, 조용히 오두막을 떠났다. 인간 여자와의 짧은 동행은 그의 마음에 깊은 흔적을 남겼다. 그러나 그는 자신이 속한 마물 사회로 돌아가지 않으면 안 되었다.",
+            "next": "act1_40"
+        },
+        {
+            "id": "act1_40",
+            "type": "text",
+            "content": "숲을 빠져나와 산등성이를 넘는 길 위에서, 그는 문득 어린 시절을 떠올렸다.",
+            "next": "act1_41"
+        },
+        {
+            "id": "act1_41",
+            "type": "text",
+            "content": "교육소에서 배운 인간에 대한 교재들—배신자, 탐욕의 화신, 마물의 적. 어릴 적엔 그것이 절대적인 진리라 믿었다. 인간은 마물과 공존할 수 없는 존재, 본능적으로 배척해야 할 존재였다.",
+            "next": "act1_42"
+        },
+        {
+            "id": "act1_42",
+            "type": "text",
+            "content": "하지만 여자의 미소, 그녀가 동물들에게 쏟던 애정, 위기에 처한 자신을 지키려던 행동들은 교재에서 배운 '적'의 모습과는 전혀 달랐다.",
+            "next": "act1_43"
+        },
+        {
+            "id": "act1_43",
+            "type": "text",
+            "content": "진실은 무엇이었을까?",
+            "next": "act1_44"
+        },
+        {
+            "id": "act1_44",
+            "type": "text",
+            "content": "마물의 성벽이 보이기 시작했을 때, 카이렌의 발걸음은 잠시 멈췄다.",
+            "next": "act1_45"
+        },
+        {
+            "id": "act1_45",
+            "type": "text",
+            "content": "그가 돌아가는 곳은 익숙하고 안전한 곳일 수도 있지만, 더는 의심 없이 순응할 수 없는 장소가 되어버렸다.",
+            "next": "act1_46"
+        },
+        {
+            "id": "act1_46",
+            "type": "text",
+            "content": "그는 속삭였다. \"모든 인간이 적일 수는 없어...\"",
+            "next": "act1_47"
+        },
+        {
+            "id": "act1_47",
+            "type": "text",
+            "content": "그 한마디는 바람에 실려 사라졌지만, 그의 내면에선 강한 회의가 움트고 있었다.",
+            "next": "act1_48"
+        },
+        {
+            "id": "act1_48",
+            "type": "text",
+            "content": "인간과 마물, 서로 다른 존재가 아니라, 어쩌면 닮은 존재는 아닐까?",
+            "next": "act1_49"
+        },
+        {
+            "id": "act1_49",
+            "type": "text",
+            "content": "그 의문은 앞으로의 여정을 바꿔 놓을 씨앗이 되었다.",
+            "next": null
+        }
+    ],
+    "events": [
+        {
+            "type": "background",
+            "trigger": 100,
+            "bg": "novels/half-blood-flame/images/background-1-1.png",
+            "bgMode": "normal"
+        },
+        {
+            "type": "background",
+            "trigger": 900,
+            "bg": "",
+            "bgMode": "normal"
+        },
+        {
+            "type": "background",
+            "trigger": 1300,
+            "bg": "novels/half-blood-flame/images/background-1-2.png",
+            "bgMode": "normal"
+        },
+        {
+            "type": "background",
+            "trigger": 2100,
+            "bg": "",
+            "bgMode": "normal"
+        },
+        {
+            "type": "background",
+            "trigger": 2500,
+            "bg": "novels/half-blood-flame/images/background-1-3.png",
+            "bgMode": "normal"
+        },
+        {
+            "type": "background",
+            "trigger": 2900,
+            "bg": "",
+            "bgMode": "normal"
+        },
+        {
+            "type": "background",
+            "trigger": 3200,
+            "bg": "novels/half-blood-flame/images/background-1-4.png",
+            "bgMode": "normal"
+        },
+        {
+            "type": "background",
+            "trigger": 3700,
+            "bg": "",
+            "bgMode": "normal"
+        },
+        {
+            "type": "sound",
+            "trigger": 1000,
+            "sound": "novels/half-blood-flame/sounds/sfx-1-1.mp3"
+        }
+    ]
+}
