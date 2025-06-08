@@ -189,6 +189,9 @@ header {
     z-index: 20000;
     transition: opacity 0.3s;
 }
+#loading-spinner.hidden {
+    display: none;
+}
 #loading-spinner[aria-label]::before {
     content: '';
     display: block;

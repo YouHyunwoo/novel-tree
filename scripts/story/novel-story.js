@@ -3,6 +3,8 @@ import { updateProgressBar } from './progress-bar.js';
 // novel-story.js
 // 소설 내용(스토리) 관련 스크립트 분리
 
+const novel = document.getElementById('novel');
+
 let choiceStates = {};
 let sceneMap = null;
 let renderedSceneIds = [];
@@ -10,8 +12,15 @@ let story;
 let triggeredSceneEvents = new Set();
 let currentActiveSceneId = null;
 
+export function showStory() {
+    novel.style.visibility = 'visible';
+}
+
+export function hideStory() {
+    novel.style.visibility = 'hidden';
+}
+
 export function renderTitleAndAct() {
-    const novel = document.getElementById('novel');
     if (document.querySelector('.novel-title')) return;
     if (story && story.title) {
         const title = document.createElement('h1');
