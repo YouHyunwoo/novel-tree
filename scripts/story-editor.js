@@ -21,8 +21,10 @@ const storageService = new EditorStorageService(editorState);
 
 // 2. 초기 렌더링 및 이벤트 바인딩
 window.addEventListener('DOMContentLoaded', () => {
+    // localStorage에 저장된 노드가 있으면 불러와서 반영
+    const loaded = nodeManager.loadNodesFromLocalStorage();
     // 노드가 하나도 없으면 시작 노드 자동 생성
-    if (nodeManager.getAllNodes().length === 0) {
+    if (!loaded || nodeManager.getAllNodes().length === 0) {
         nodeManager.addNode({
             id: 'start',
             name: '시작',
@@ -52,5 +54,15 @@ window.addEventListener('DOMContentLoaded', () => {
                 alert(errMsg);
             });
         };
+    }
+    // 소설 제목 입력 시 상태에 반영 + localStorage에 즉시 저장
+    const titleInput = document.getElementById('novel-title-input');
+    if (titleInput) {
+        // 초기값 세팅 (localStorage나 파일에서 불러온 값)
+        titleInput.value = editorState.getTitle() || '';
+        titleInput.addEventListener('input', (e) => {
+            editorState.setTitle(e.target.value);
+            nodeManager.saveNodesToLocalStorage(); // 제목 변경 시 즉시 저장
+        });
     }
 });

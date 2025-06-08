@@ -299,44 +299,81 @@ export class EditorEventBinder {
                 handleDragState = null;
                 return;
             }
-            // 드래그로 놓은 경우: 마우스 위치에 새 노드 생성
-            if (handleDragState.isChoice) {
-                const node = this.nodeManager.getNodeById(handleDragState.fromNodeId);
-                const choiceIdx = handleDragState.fromChoiceIdx;
-                if (node && node.type === 'choice' && node.choices && node.choices[choiceIdx] && !node.choices[choiceIdx].next) {
-                    const nodeCanvasRect = nodeCanvas.getBoundingClientRect();
-                    const dropX = e.clientX - nodeCanvasRect.left;
-                    const dropY = e.clientY - nodeCanvasRect.top;
-                    const newNodeId = this.nodeManager.generateNodeId();
-                    const newNode = {
-                        id: newNodeId,
-                        name: '',
-                        type: 'text',
-                        content: '',
-                        x: dropX - 110,
-                        y: dropY - 50,
-                        next: ''
-                    };
-                    this.nodeManager.addNode(newNode);
-                    this.nodeManager.connectNode(node.id, newNodeId, { choiceIdx });
-                    this.editorState.setActiveNode(newNodeId);
-                    this.viewRenderer.renderNodes();
+            // 드래그로 놓은 경우: 마우스 위치에 노드가 있으면 해당 노드와 연결, 없으면 새 노드 생성
+            // 1. 드롭 위치에 노드 찾기
+            const nodeDivs = nodeCanvas.querySelectorAll('.story-node');
+            let targetNodeId = null;
+            nodeDivs.forEach(div => {
+                const rect = div.getBoundingClientRect();
+                if (
+                    e.clientX >= rect.left && e.clientX <= rect.right &&
+                    e.clientY >= rect.top && e.clientY <= rect.bottom
+                ) {
+                    targetNodeId = div.getAttribute('data-id');
+                }
+            });
+            // 자기 자신, 이미 연결된 노드, 시작 노드 등 예외 처리
+            if (targetNodeId && targetNodeId !== handleDragState.fromNodeId && targetNodeId !== 'start') {
+                if (handleDragState.isChoice) {
+                    const node = this.nodeManager.getNodeById(handleDragState.fromNodeId);
+                    const choiceIdx = handleDragState.fromChoiceIdx;
+                    if (node && node.type === 'choice' && node.choices && node.choices[choiceIdx] && !node.choices[choiceIdx].next) {
+                        // 순환 연결 방지
+                        if (targetNodeId === node.id) return;
+                        this.nodeManager.connectNode(node.id, targetNodeId, { choiceIdx });
+                        this.editorState.setActiveNode(targetNodeId);
+                        this.viewRenderer.renderNodes();
+                    }
+                } else {
+                    const fromNodeId = handleDragState.fromNodeId;
+                    const node = this.nodeManager.getNodeById(fromNodeId);
+                    if (node && node.type === 'text' && !node.next) {
+                        // 순환 연결 방지
+                        if (targetNodeId === fromNodeId) return;
+                        this.nodeManager.connectNode(fromNodeId, targetNodeId);
+                        this.editorState.setActiveNode(targetNodeId);
+                        this.viewRenderer.renderNodes();
+                    }
                 }
             } else {
-                // 기존 본문 핸들 드래그 동작
-                const fromNodeId = handleDragState.fromNodeId;
-                const node = this.nodeManager.getNodeById(fromNodeId);
-                if (node && node.type === 'text' && !node.next) {
-                    const nodeCanvasRect = nodeCanvas.getBoundingClientRect();
-                    const dropX = e.clientX - nodeCanvasRect.left;
-                    const dropY = e.clientY - nodeCanvasRect.top;
-                    // 새 노드 생성 및 연결
-                    const newNode = this.nodeManager.addNodeAfter(fromNodeId, '본문');
-                    if (newNode) {
-                        // 위치 지정
-                        this.nodeManager.moveNode(newNode.id, dropX - 110, dropY - 50);
-                        this.editorState.setActiveNode(newNode.id);
+                // 기존 동작: 새 노드 생성
+                if (handleDragState.isChoice) {
+                    const node = this.nodeManager.getNodeById(handleDragState.fromNodeId);
+                    const choiceIdx = handleDragState.fromChoiceIdx;
+                    if (node && node.type === 'choice' && node.choices && node.choices[choiceIdx] && !node.choices[choiceIdx].next) {
+                        const nodeCanvasRect = nodeCanvas.getBoundingClientRect();
+                        const dropX = e.clientX - nodeCanvasRect.left;
+                        const dropY = e.clientY - nodeCanvasRect.top;
+                        const newNodeId = this.nodeManager.generateNodeId();
+                        const newNode = {
+                            id: newNodeId,
+                            name: '',
+                            type: 'text',
+                            content: '',
+                            x: dropX - 110,
+                            y: dropY - 50,
+                            next: ''
+                        };
+                        this.nodeManager.addNode(newNode);
+                        this.nodeManager.connectNode(node.id, newNodeId, { choiceIdx });
+                        this.editorState.setActiveNode(newNodeId);
                         this.viewRenderer.renderNodes();
+                    }
+                } else {
+                    const fromNodeId = handleDragState.fromNodeId;
+                    const node = this.nodeManager.getNodeById(fromNodeId);
+                    if (node && node.type === 'text' && !node.next) {
+                        const nodeCanvasRect = nodeCanvas.getBoundingClientRect();
+                        const dropX = e.clientX - nodeCanvasRect.left;
+                        const dropY = e.clientY - nodeCanvasRect.top;
+                        // 새 노드 생성 및 연결
+                        const newNode = this.nodeManager.addNodeAfter(fromNodeId, '본문');
+                        if (newNode) {
+                            // 위치 지정
+                            this.nodeManager.moveNode(newNode.id, dropX - 110, dropY - 50);
+                            this.editorState.setActiveNode(newNode.id);
+                            this.viewRenderer.renderNodes();
+                        }
                     }
                 }
             }
@@ -354,9 +391,19 @@ export class EditorEventBinder {
         // delete 키로 활성 노드 삭제
         document.addEventListener('keydown', (e) => {
             if (e.key !== 'Delete' && e.key !== 'Del') return;
+            // 입력 포커스가 인풋, 텍스트에어리어, 컨텐츠에디터블이면 무시
+            const tag = document.activeElement && document.activeElement.tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.isContentEditable) return;
+            // 노드가 활성화되어 있지 않으면 무시
             const activeNode = this.editorState.getActiveNode && this.editorState.getActiveNode();
             if (!activeNode) return;
-            if (activeNode.id === 'start') return; // 시작 노드는 삭제 금지
+
+            // 편집 다이얼로그가 실제로 열려있는 경우에만 삭제 방지 (open 속성, offsetParent, display)
+            const editDialog = document.querySelector('#node-edit-dialog');
+            if (editDialog && editDialog.open) return;
+
+            // 시작 노드는 삭제 금지
+            if (activeNode.id === 'start') return;
             this.nodeManager.removeNode(activeNode.id);
             this.editorState.setActiveNode(null);
             this.viewRenderer.renderNodes();
@@ -397,13 +444,16 @@ export class EditorEventBinder {
             // 입력 포커스가 인풋, 텍스트에어리어, 컨텐츠에디터블이면 무시
             const tag = document.activeElement && document.activeElement.tagName;
             if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.isContentEditable) return;
+            // 노드가 활성화되어 있지 않으면 무시
+            const activeNode = this.editorState.getActiveNode && this.editorState.getActiveNode();
+            if (!activeNode) return;
+            // 다이얼로그 등 다른 창이 떠 있으면 무시
+            if (document.querySelector('.modal-dialog, .dialog, .edit-dialog, .status-panel[open], .dialog-backdrop')) return;
             let type = null;
             if (e.key === '1') type = '본문';
             if (e.key === '2') type = '선택지';
             if (e.key === '3') type = '조건분기';
             if (!type) return;
-            const activeNode = this.editorState.getActiveNode && this.editorState.getActiveNode();
-            if (!activeNode) return;
             const newNode = this.nodeManager.addNodeAfter(activeNode.id, type);
             if (newNode) {
                 this.editorState.setActiveNode(newNode.id);

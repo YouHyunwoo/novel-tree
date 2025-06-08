@@ -21,13 +21,24 @@ export class EditorViewRenderer {
     renderNodes() {
         const nodeCanvas = document.getElementById('node-canvas');
         if (!nodeCanvas) return;
+        // 기존 노드의 접힘/펼침 상태 저장
+        const prevStates = {};
+        nodeCanvas.querySelectorAll('.story-node').forEach(div => {
+            const nodeId = div.getAttribute('data-id');
+            const contentDiv = div.querySelector('.node-content-body');
+            if (nodeId && contentDiv) {
+                prevStates[nodeId] = contentDiv.classList.contains('collapsed') ? 'collapsed'
+                    : (contentDiv.classList.contains('node-content-full') ? 'full' : '');
+            }
+        });
         nodeCanvas.innerHTML = '';
         const nodes = this.nodeManager.getAllNodes();
         const activeId = this.editorState.getSelectedNodeId();
         // 노드 div 생성 및 추가
         const nodeDivMap = {};
         nodes.forEach(node => {
-            const div = this.createNodeElement(node, activeId);
+            const foldState = prevStates[node.id] || '';
+            const div = this.createNodeElement(node, activeId, foldState);
             nodeCanvas.appendChild(div);
             nodeDivMap[node.id] = div;
         });
@@ -114,9 +125,10 @@ export class EditorViewRenderer {
      * 노드 객체로부터 노드 DOM 엘리먼트 생성
      * @param {object} node - 노드 데이터 객체
      * @param {string|null} activeId - 활성 노드 id
+     * @param {string} foldState - 'collapsed'|'full'|''
      * @returns {HTMLDivElement}
      */
-    createNodeElement(node, activeId) {
+    createNodeElement(node, activeId, foldState) {
         const div = document.createElement('div');
         div.className = 'story-node' + (node.id === activeId ? ' selected' : '');
         div.setAttribute('data-id', node.id);
@@ -140,7 +152,14 @@ export class EditorViewRenderer {
             // 본문 내용 표시 및 접기/펼치기
             if (node.content && node.content.trim().length > 0) {
                 const contentDiv = document.createElement('div');
-                contentDiv.className = 'node-content-body node-content-preview collapsed';
+                contentDiv.className = 'node-content-body node-content-preview';
+                if (foldState === 'collapsed') {
+                    contentDiv.classList.add('collapsed');
+                } else if (foldState === 'full') {
+                    contentDiv.classList.add('node-content-full');
+                } else {
+                    contentDiv.classList.add('collapsed');
+                }
                 contentDiv.textContent = node.content;
                 contentDiv.title = '클릭하여 펼치기/접기';
                 contentDiv.style.cursor = 'pointer';

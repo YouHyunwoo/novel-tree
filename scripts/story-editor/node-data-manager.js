@@ -6,10 +6,37 @@ export class NodeDataManager {
     constructor(editorState) {
         this.editorState = editorState;
     }
+    saveNodesToLocalStorage() {
+        const nodes = this.editorState.getNodes();
+        const title = this.editorState.getTitle();
+        const data = { title, nodes };
+        localStorage.setItem('novel-tree-nodes', JSON.stringify(data));
+    }
+    loadNodesFromLocalStorage() {
+        const data = localStorage.getItem('novel-tree-nodes');
+        if (!data) return null;
+        try {
+            const parsed = JSON.parse(data);
+            if (Array.isArray(parsed)) {
+                // 하위 호환: 노드 배열만 있을 때
+                this.editorState.setNodes(parsed);
+                this.editorState.setTitle('');
+                return parsed;
+            } else if (parsed && typeof parsed === 'object' && Array.isArray(parsed.nodes)) {
+                this.editorState.setNodes(parsed.nodes);
+                this.editorState.setTitle(parsed.title || '');
+                return parsed.nodes;
+            }
+        } catch (e) {
+            // 파싱 오류 무시
+        }
+        return null;
+    }
     addNode(node) {
         const nodes = this.editorState.getNodes();
         nodes.push(node);
         this.editorState.setNodes(nodes);
+        this.saveNodesToLocalStorage();
     }
     removeNode(nodeId) {
         // 연결 해제: 모든 노드의 next/choices/conditions에서 해당 id 제거
@@ -17,6 +44,7 @@ export class NodeDataManager {
         let nodes = this.editorState.getNodes();
         nodes = nodes.filter(n => n.id !== nodeId);
         this.editorState.setNodes(nodes);
+        this.saveNodesToLocalStorage();
     }
     getNodeById(nodeId) {
         return this.editorState.getNodes().find(n => n.id === nodeId) || null;
@@ -27,6 +55,7 @@ export class NodeDataManager {
         if (idx !== -1) {
             nodes[idx] = { ...nodes[idx], ...patch };
             this.editorState.setNodes(nodes);
+            this.saveNodesToLocalStorage();
         }
     }
     getAllNodes() {

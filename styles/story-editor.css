@@ -219,7 +219,7 @@ body {
     background: #283593;
     opacity: 1;
 }
-dialog#node-dialog {
+dialog#node-edit-dialog {
     min-width: 380px;
     border: none;
     border-radius: 16px;
@@ -233,13 +233,13 @@ dialog#node-dialog {
     from { opacity: 0; transform: translateY(24px) scale(0.98); }
     to { opacity: 1; transform: none; }
 }
-#node-dialog form {
+#node-edit-dialog form {
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding: 24px 28px 8px 28px;
 }
-#node-dialog label {
+#node-edit-dialog label {
     display: block;
     font-weight: 600;
     font-size: 1em;
@@ -247,7 +247,7 @@ dialog#node-dialog {
     margin-bottom: 4px;
     margin-top: 12px;
 }
-#node-dialog label:first-child {
+#node-edit-dialog label:first-child {
     margin-top: 0;
 }
 #node-name {
@@ -286,9 +286,9 @@ dialog#node-dialog {
     font-size: 1em;
     color: #263238;
 }
-#node-dialog select,
-#node-dialog textarea,
-#node-dialog input[type="text"] {
+#node-edit-dialog select,
+#node-edit-dialog textarea,
+#node-edit-dialog input[type="text"] {
     width: 100%;
     border: 1px solid #bdbdbd;
     border-radius: 6px;
@@ -299,14 +299,14 @@ dialog#node-dialog {
     background: #f8f9fa;
     transition: border 0.2s;
 }
-#node-dialog select:focus,
-#node-dialog textarea:focus,
-#node-dialog input[type="text"]:focus {
+#node-edit-dialog select:focus,
+#node-edit-dialog textarea:focus,
+#node-edit-dialog input[type="text"]:focus {
     border: 1.5px solid #3949ab;
     outline: none;
     background: #fff;
 }
-#node-dialog textarea {
+#node-edit-dialog textarea {
     resize: vertical;
     min-height: 60px;
     max-height: 200px;
@@ -791,4 +791,43 @@ dialog#node-dialog {
     white-space: pre-line;
     cursor: pointer;
     background: #f3f4f8;
+}
+/* 선택지 노드 스타일 개선 */
+.choices-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+.choice-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2px;
+}
+.choice-text {
+    font-size: 1em;
+    color: #263238;
+    white-space: pre-line;
+    flex: 1 1 auto;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+.next-link-handle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #3949ab;
+    margin-left: 8px;
+    cursor: grab;
+    display: inline-block;
+    transition: background 0.2s, border-color 0.2s;
+    vertical-align: middle;
+}
+.next-link-handle:hover {
+    background: #e8eaf6;
+    border-color: #1a237e;
 }
